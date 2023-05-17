@@ -3,11 +3,11 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views import generic
 from bootstrap_modal_forms.mixins import PassRequestMixin
-from .models import User, Book, Chat, DeleteRequest, Feedback
+from .models import User, Book
 from django.contrib import messages
 from django.db.models import Sum
 from django.views.generic import CreateView, DetailView, DeleteView, UpdateView, ListView
-from .forms import ChatForm, BookForm, UserForm
+from .forms import BookForm, UserForm
 from . import models
 import operator
 import itertools
@@ -153,40 +153,40 @@ def usearch(request):
         return render(request,'publisher/result.html',{'files':files,'word':word})
 
 
-@login_required
-def delete_request(request):
-    if request.method == 'POST':
-        book_id = request.POST['delete_request']
-        current_user = request.user
-        user_id = current_user.id
-        username = current_user.username
-        user_request = username + "  want book with id  " + book_id + " to be deleted"
+# @login_required
+# def delete_request(request):
+#     if request.method == 'POST':
+#         book_id = request.POST['delete_request']
+#         current_user = request.user
+#         user_id = current_user.id
+#         username = current_user.username
+#         user_request = username + "  want book with id  " + book_id + " to be deleted"
 
-        a = DeleteRequest(delete_request=user_request)
-        a.save()
-        messages.success(request, 'Request was sent')
-        return redirect('request_form')
-    else:
-        messages.error(request, 'Request was not sent')
-        return redirect('request_form')
+#         a = DeleteRequest(delete_request=user_request)
+#         a.save()
+#         messages.success(request, 'Request was sent')
+#         return redirect('request_form')
+#     else:
+#         messages.error(request, 'Request was not sent')
+#         return redirect('request_form')
 
 
-@login_required
-def send_feedback(request):
-    if request.method == 'POST':
-        feedback = request.POST['feedback']
-        current_user = request.user
-        user_id = current_user.id
-        username = current_user.username
-        feedback = username + " " + " says " + feedback
+# @login_required
+# def send_feedback(request):
+#     if request.method == 'POST':
+#         feedback = request.POST['feedback']
+#         current_user = request.user
+#         user_id = current_user.id
+#         username = current_user.username
+#         feedback = username + " " + " says " + feedback
 
-        a = Feedback(feedback=feedback)
-        a.save()
-        messages.success(request, 'Feedback was sent')
-        return redirect('feedback_form')
-    else:
-        messages.error(request, 'Feedback was not sent')
-        return redirect('feedback_form')
+#         a = Feedback(feedback=feedback)
+#         a.save()
+#         messages.success(request, 'Feedback was sent')
+#         return redirect('feedback_form')
+#     else:
+#         messages.error(request, 'Feedback was not sent')
+#         return redirect('feedback_form')
 
 
 class UBookListView(LoginRequiredMixin,ListView):
@@ -222,25 +222,25 @@ def uabook(request):
         return redirect('uabook_form')	
 
 
-class UCreateChat(LoginRequiredMixin, CreateView):
-    form_class = ChatForm
-    model = Chat
-    template_name = 'publisher/chat_form.html'
-    success_url = reverse_lazy('ulchat')
+# class UCreateChat(LoginRequiredMixin, CreateView):
+#     form_class = ChatForm
+#     model = Chat
+#     template_name = 'publisher/chat_form.html'
+#     success_url = reverse_lazy('ulchat')
 
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.user = self.request.user
-        self.object.save()
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         self.object = form.save(commit=False)
+#         self.object.user = self.request.user
+#         self.object.save()
+#         return super().form_valid(form)
 
 
-class UListChat(LoginRequiredMixin, ListView):
-    model = Chat
-    template_name = 'publisher/chat_list.html'
+# class UListChat(LoginRequiredMixin, ListView):
+#     model = Chat
+#     template_name = 'publisher/chat_list.html'
 
-    def get_queryset(self):
-        return Chat.objects.filter(posted_at__lt=timezone.now()).order_by('posted_at')
+#     def get_queryset(self):
+#         return Chat.objects.filter(posted_at__lt=timezone.now()).order_by('posted_at')
 
 
 # Librarian views
@@ -302,14 +302,14 @@ class LManageBook(LoginRequiredMixin,ListView):
         return Book.objects.order_by('-id')
 
 
-class LDeleteRequest(LoginRequiredMixin,ListView):
-    model = DeleteRequest
-    template_name = 'librarian/delete_request.html'
-    context_object_name = 'feedbacks'
-    paginate_by = 3
+# class LDeleteRequest(LoginRequiredMixin,ListView):
+#     model = DeleteRequest
+#     template_name = 'librarian/delete_request.html'
+#     context_object_name = 'feedbacks'
+#     paginate_by = 3
 
-    def get_queryset(self):
-        return DeleteRequest.objects.order_by('-id')
+#     def get_queryset(self):
+#         return DeleteRequest.objects.order_by('-id')
 
 
 class LViewBook(LoginRequiredMixin,DetailView):
@@ -392,25 +392,25 @@ def lsearch(request):
         return render(request,'librarian/result.html',{'files':files,'word':word})
 
 
-class LCreateChat(LoginRequiredMixin, CreateView):
-    form_class = ChatForm
-    model = Chat
-    template_name = 'librarian/chat_form.html'
-    success_url = reverse_lazy('llchat')
+# class LCreateChat(LoginRequiredMixin, CreateView):
+#     form_class = ChatForm
+#     model = Chat
+#     template_name = 'librarian/chat_form.html'
+#     success_url = reverse_lazy('llchat')
 
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.user = self.request.user
-        self.object.save()
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         self.object = form.save(commit=False)
+#         self.object.user = self.request.user
+#         self.object.save()
+#         return super().form_valid(form)
 
 
-class LListChat(LoginRequiredMixin, ListView):
-    model = Chat
-    template_name = 'librarian/chat_list.html'
+# class LListChat(LoginRequiredMixin, ListView):
+#     model = Chat
+#     template_name = 'librarian/chat_list.html'
 
-    def get_queryset(self):
-        return Chat.objects.filter(posted_at__lt=timezone.now()).order_by('posted_at')
+#     def get_queryset(self):
+#         return Chat.objects.filter(posted_at__lt=timezone.now()).order_by('posted_at')
 
 
 # Admin views
@@ -495,11 +495,11 @@ class ALViewUser(DetailView):
     template_name='dashboard/user_detail.html'
 
 
-class ACreateChat(LoginRequiredMixin, CreateView):
-    form_class = ChatForm
-    model = Chat
-    template_name = 'dashboard/chat_form.html'
-    success_url = reverse_lazy('alchat')
+# class ACreateChat(LoginRequiredMixin, CreateView):
+#     form_class = ChatForm
+#     model = Chat
+#     template_name = 'dashboard/chat_form.html'
+#     success_url = reverse_lazy('alchat')
 
 
     def form_valid(self, form):
@@ -509,12 +509,12 @@ class ACreateChat(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class AListChat(LoginRequiredMixin, ListView):
-    model = Chat
-    template_name = 'dashboard/chat_list.html'
+# class AListChat(LoginRequiredMixin, ListView):
+#     model = Chat
+#     template_name = 'dashboard/chat_list.html'
 
-    def get_queryset(self):
-        return Chat.objects.filter(posted_at__lt=timezone.now()).order_by('posted_at')
+#     def get_queryset(self):
+#         return Chat.objects.filter(posted_at__lt=timezone.now()).order_by('posted_at')
 
 
 @login_required
@@ -593,24 +593,24 @@ class AEditView(LoginRequiredMixin,UpdateView):
     success_message = 'Data was updated successfully'
 
 
-class ADeleteRequest(LoginRequiredMixin,ListView):
-    model = DeleteRequest
-    template_name = 'dashboard/delete_request.html'
-    context_object_name = 'feedbacks'
-    paginate_by = 3
+# class ADeleteRequest(LoginRequiredMixin,ListView):
+#     model = DeleteRequest
+#     template_name = 'dashboard/delete_request.html'
+#     context_object_name = 'feedbacks'
+#     paginate_by = 3
 
-    def get_queryset(self):
-        return DeleteRequest.objects.order_by('-id')
+#     def get_queryset(self):
+#         return DeleteRequest.objects.order_by('-id')
 
 
-class AFeedback(LoginRequiredMixin,ListView):
-    model = Feedback
-    template_name = 'dashboard/feedback.html'
-    context_object_name = 'feedbacks'
-    paginate_by = 3
+# class AFeedback(LoginRequiredMixin,ListView):
+#     model = Feedback
+#     template_name = 'dashboard/feedback.html'
+#     context_object_name = 'feedbacks'
+#     paginate_by = 3
 
-    def get_queryset(self):
-        return Feedback.objects.order_by('-id')
+#     def get_queryset(self):
+#         return Feedback.objects.order_by('-id')
 
 
 @login_required
@@ -665,18 +665,3 @@ def asearch(request):
             return render(request,'dashboard/result.html',{'files':files,'word':word})
         return render(request,'dashboard/result.html',{'files':files,'word':word})
 
-
-# 
-from django.http import HttpResponse, Http404
-from django.conf import settings
-import os
-
-def view_pdf(request, pdf_path):
-    pdf_file = os.path.join(settings.MEDIA_ROOT, pdf_path)
-    if os.path.exists(pdf_file):
-        with open(pdf_file, 'rb') as f:
-            response = HttpResponse(f.read(), content_type='application/pdf')
-            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(pdf_file)
-            return response
-    else:
-        raise Http404('PDF file not found')
