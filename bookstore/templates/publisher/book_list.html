@@ -44,6 +44,9 @@
                       <th>Book ID</th>
                       <th>Book Cover</th>
                       <th>Book Title</th>
+                      <th>Major</th>
+                      <th>Author</th>
+                      <th>Year</th>
                       <th>Read</th>
                       <th>Download</th>
                     </tr>
@@ -64,9 +67,14 @@
                         {% endif %}
                       </td>
                       <td>{{ book.title }}</td>
+                      <td>{{ book.major }}</td>
+                      <td>{{ book.author }}</td>
+                      <td>{{ book.year }}</td>
                       <td>
                         {% if book.pdf %}
-                        <a href="{{ book.pdf.url }}" class="btn btn-outline-primary" type="application/pdf" target="_blank">View PDF</a>
+                          {% if not request.user.is_publisher %}
+                          <a href="{{ book.pdf.url }}" class="btn btn-outline-primary" type="application/pdf" target="_blank">View PDF</a>
+                          {% endif %}
                         {% else %}
                         <span class="text-muted">No PDF</span>
                         {% endif %}
@@ -75,7 +83,7 @@
                       <td>
                         {% if book.pdf %}
                         <!-- <a href="{{ book.pdf.url }}" download class="btn btn-outline-success">Download PDF</a> -->
-                        <a href="{% url 'confirm-download' %}" class="btn btn-outline-success">Download PDF</a>
+                        <a href="{% url 'confirm-download' pk=book.id %}" class="btn btn-outline-success">Download PDF</a>
                         {% else %}
                         <span class="text-muted">No PDF</span>
                         {% endif %}

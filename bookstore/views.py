@@ -96,8 +96,9 @@ def about(request):
 
 
 @login_required
-def confirm_download(request):
-    return render(request, 'publisher/confirm_download.html')
+def confirm_download(request, pk):
+    pk = pk
+    return render(request, 'publisher/confirm_download.html', {'pk': pk})
 
 
 @login_required
@@ -220,6 +221,29 @@ def uabook(request):
     else:
         messages.error(request, 'Book was not uploaded successfully')
         return redirect('uabook_form')	
+
+
+@login_required
+def udbook(request, pk):
+    if request.method == 'POST':
+        price = float(request.POST['price'])
+        amount = float(request.POST['amount'])
+        bin_img = request.FILES['qr']
+        current_user = request.user
+        user_id = current_user.id
+        username = current_user.username
+        thesis = Book.objects.get(pk=pk)
+
+        download = models.Download(price=price, thesis_amount=amount, user=current_user, thesis=thesis)
+        payment = models.Payment(total_amount=price, bin_img=bin_img, download=download)
+        download.save()
+        payment.save()
+        messages.success(request, 'Book was downloaded successfully')
+        pdf_url = f'http://localhost:8001{thesis.pdf.url}'
+        return redirect(pdf_url)
+    else:
+        messages.error(request, 'Book was not downloaded successfully')
+        return redirect('confirm-download')	
 
 
 # class UCreateChat(LoginRequiredMixin, CreateView):

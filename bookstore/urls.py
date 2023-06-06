@@ -28,7 +28,8 @@ urlpatterns = [
     # path('lcchat/', views.LCreateChat.as_view(), name='lcchat'),
     # path('llchat/', views.LListChat.as_view(), name='llchat'),
 
-    path('confirm-download/', views.confirm_download, name='confirm-download'),
+    path('confirm-download/<int:pk>/', views.confirm_download, name='confirm-download'),
+    path('udbook/<int:pk>/', views.udbook, name='udbook'),
 
     # Publisher URL's
     path('publisher/', views.UBookListView.as_view(), name='publisher'),
