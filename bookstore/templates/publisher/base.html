@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   {% block title %}{% endblock %}
-  <title>Pelcon</title>
+  <title>Student</title>
 
   {% load static %}
   <!-- Custom fonts for this template-->
@@ -27,23 +27,24 @@
 
   <!-- Custom styles for this template-->
   <link rel="stylesheet" type="text/css" href="{% static 'css/master.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
   <link href="{% static 'css/sb-admin.css' %}" rel="stylesheet">
   {% block stylesheet %}{% endblock %}
 </head>
 
-<body id="page-top" style="background-color: #decdc3">
+<body id="page-top" style="background-color: whitesmoke;">
 
   <!-- headers-->
   <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
 
     <a class="navbar-brand mr-1 text-primary" href="{% url 'publisher' %}">
-      <h2>FENThesis</h2>
+      <a class="navbar-brand" href="#"><img src="{% static 'assets/images/su-logo.png' %}" alt="Logo" width="60"></a>
     </a>
 
-    <div class="collapse navbar-collapse" id="navbarText">
+    <div class="collapse navbar-collapse lao" id="navbarText">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'publisher' %}">Home</a>
+          <a class="nav-link" href="{% url 'publisher' %}">ຫນ້າຫຼັກ</a>
         </li>
         <!-- <li class="nav-item">
           <a class="nav-link" href="{#% url 'ulchat' %#}">Group Chat</a>
@@ -55,7 +56,7 @@
           <a class="nav-link" href="{#% url 'feedback_form' %#}">Send Feedback</a>
         </li> -->
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'about' %}">About Us</a>
+          <a class="nav-link" href="{% url 'about' %}">ກ່ຽວກັບ</a>
         </li>
       </ul>
     </div>

@@ -60,6 +60,7 @@
                       <th>Major</th>
                       <th>Author</th>
                       <th>Year</th>
+                      <th>Description</th>
                       <th>Read</th>
                       <th>Download</th>
                     </tr>
@@ -83,6 +84,7 @@
                       <td>{{ book.major }}</td>
                       <td>{{ book.author }}</td>
                       <td>{{ book.year }}</td>
+                      <td>{{ book.desc }}</td>
                       <td>
                         {% if book.pdf %}
                           {% if not request.user.is_publisher %}

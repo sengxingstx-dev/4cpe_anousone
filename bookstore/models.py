@@ -65,7 +65,7 @@ class Book(models.Model):
     publisher = models.CharField(max_length=200)
     desc = models.CharField(max_length=1000)
     uploaded_by = models.CharField(max_length=100, null=True, blank=True)
-    user_id = models.CharField(max_length=100, null=True, blank=True)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     pdf = models.FileField(upload_to='bookapp/pdfs/')
     cover = models.ImageField(upload_to='bookapp/covers/', null=True, blank=True)
     major = models.ForeignKey(Major, null=True, blank=True, on_delete=models.CASCADE)
