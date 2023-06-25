@@ -6,11 +6,11 @@
 <style>
   .img-fluid {
     width: 100%;
-    height: 350px;
+    height: 200px;
   }
 </style>
 
-<div class="container-fluid">
+<div class="container-fluid lao">
   <div class="row" style="padding-top: 87px">
 
     <div class="col-sm-1" style="color: red">
@@ -28,17 +28,17 @@
       <div class="card mb-3">
         <div class="card-header">
           <i class="fas fa-table text-primary"></i>
-          Recent Added Books
+          
         </div>
         <div class="card-body">
-          <ol class="breadcrumb">
+          <!-- <ol class="breadcrumb">
             <li class="breadcrumb-item">
               <a href="#"></a>
 
               <a class="btn btn-sm btn-success" href="{% url 'uabook_form' %}"
                 style="padding: 8px; float: right; background-color: green; color: white;">Add Book</a>
             </li>
-          </ol>
+          </ol> -->
 
           {% for message in messages %}
           <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
@@ -54,15 +54,17 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Book ID</th>
-                      <th>Book Cover</th>
-                      <th>Book Title</th>
-                      <th>Major</th>
-                      <th>Author</th>
-                      <th>Year</th>
-                      <th>Description</th>
-                      <th>Read</th>
-                      <th>Download</th>
+                      <th>ໄອດີ</th>
+                      <th>ຫນ້າປົກ</th>
+                      <th>ຫົວຂໍ້</th>
+                      <th>ສາຂາວິຊາ</th>
+                      <th>ຜູ້ຂຽນ</th>
+                      <th>ສົກຮຽນ</th>
+                      <th>ບົດຄັດຫຍໍ້</th>
+                      {% if not request.user.is_publisher %}
+                      <th>ເບີ່ງ</th>
+                      {% endif %}
+                      <th>ດາວໂຫລດ</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -77,30 +79,36 @@
                         {% if book.cover %}
                         <img src="{{ book.cover.url }}" alt="{{ book.title}}" style="height: 100px; width: 100px">
                         {% else %}
-                        <span class="text-muted">No Cover</span>
+                        <span class="text-muted">ບໍ່ມີຮູບຫນ້າປົກ</span>
                         {% endif %}
                       </td>
                       <td>{{ book.title }}</td>
                       <td>{{ book.major }}</td>
                       <td>{{ book.author }}</td>
                       <td>{{ book.year }}</td>
-                      <td>{{ book.desc }}</td>
                       <td>
-                        {% if book.pdf %}
-                          {% if not request.user.is_publisher %}
-                          <a href="{{ book.pdf.url }}" class="btn btn-outline-primary" type="application/pdf" target="_blank">View PDF</a>
-                          {% endif %}
+                        {% if book.desc|length > 50 %}
+                          {{ book.desc|slice:":50" }}... <a href="{% url 'abstract' book.id %}">ອ່ານຕໍ່</a>
                         {% else %}
-                        <span class="text-muted">No PDF</span>
+                          {{ book.desc }}
                         {% endif %}
                       </td>
+                      {% if book.pdf %}
+                        {% if not request.user.is_publisher %}
+                        <td>
+                          <a href="{{ book.pdf.url }}" class="btn btn-outline-primary" type="application/pdf" target="_blank">ເບີ່ງ PDF</a>
+                        </td>
+                        {% endif %}
+                      {% else %}
+                      <span class="text-muted">ບໍ່ມີ PDF</span>
+                      {% endif %}
 
                       <td>
                         {% if book.pdf %}
                         <!-- <a href="{{ book.pdf.url }}" download class="btn btn-outline-success">Download PDF</a> -->
-                        <a href="{% url 'confirm-download' pk=book.id %}" class="btn btn-outline-success">Download PDF</a>
+                        <a href="{% url 'confirm-download' pk=book.id %}" class="btn btn-outline-success">ດາວໂຫລດ PDF</a>
                         {% else %}
-                        <span class="text-muted">No PDF</span>
+                        <span class="text-muted">ບໍ່ມີ PDF</span>
                         {% endif %}
 
                       </td>

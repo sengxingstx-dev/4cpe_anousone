@@ -54,7 +54,7 @@
   {% endblock %}
 </head>
 
-<body id="page-top">
+<body id="page-top" class="lao">
 
   <!-- headers-->
   <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
@@ -78,7 +78,7 @@
     </form>
 
     <!-- Navbar -->
-    <ul class="navbar-nav ml-auto ml-md-0">
+    <ul class="navbar-nav ml-auto ml-md-0" >
       <li class="nav-item dropdown no-arrow">
         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
@@ -97,12 +97,12 @@
   <div id="wrapper" style="padding-top: 50px">
 
     <!-- Sidebar -->
-    <ul class="sidebar navbar-nav">
+    <ul class="sidebar navbar-nav" style="background-color: #770000;">
 
       <li class="nav-item active">
         <a class="nav-link" href="{% url 'dashboard' %}">
           <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Admin Dashboard</span>
+          <span>ຫນ້າແອັດມິນ</span>
         </a>
       </li>
       <li class="nav-item active">
@@ -120,20 +120,20 @@
       <li class="nav-item">
         <a class="nav-link" href="{% url 'aabook_form' %}">
           <i class="fas fa-book text-primary"></i>
-          <span style="color: white">Add Book</span>
+          <span style="color: white">ເພີ່ມປື້ມ</span>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'albook' %}">
           <i class="fas fa-book text-primary"></i>
-          <span style="color: white">Recent Added Books</span>
+          <span style="color: white">ປື້ມທີ່ເພີ່ມລ່າສຸດ</span>
         </a>
       </li>
 
       <li class="nav-item">
         <a class="nav-link" href="{% url 'ambook' %}">
           <i class="fas fa-book text-primary"></i>
-          <span style="color: white">Manage Books</span>
+          <span style="color: white">ຈັດການປື້ມ</span>
         </a>
       </li>
       <!-- <li class="nav-item">
@@ -149,9 +149,21 @@
         </a>
       </li> -->
       <li class="nav-item">
+        <a class="nav-link" href="{% url 'alteacher' %}">
+          <i class="fas fa-user text-primary"></i>
+          <span style="color: white">ຈັດການຂໍ້ມູນອາຈານ</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'alstudent' %}">
+          <i class="fas fa-user text-primary"></i>
+          <span style="color: white">ຈັດການຂໍ້ມູນນັກສືກສາ</span>
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="{% url 'aluser' %}">
           <i class="fas fa-user text-primary"></i>
-          <span style="color: white">Manage User</span>
+          <span style="color: white">ຈັດການຂໍ້ມູນຜູ້ໃຊ້</span>
         </a>
       </li>
     </ul>

@@ -10,12 +10,12 @@
           <div class="container-fluid">
             <ol class="breadcrumb">
               <li class="breadcrumb-item">
-                <!-- <a href="">User : {{ object.username }} </a> -->
+                <!-- <a href="">Teacher : {{ object.full_name }} </a> -->
             </ol>
             <div class="card mb-3">
               <div class="card-header">
                 <i class="fas fa-table text-warning"></i>
-                <!-- Details Of User -->
+                <!-- Details Of Teacher -->
               </div>
               <div class="card-body">
                 {% for message in messages %}
@@ -27,18 +27,19 @@
                 <div class="row">
                   <div class="col-12">
                     <ul class="list-group">
-                      <li class="list-group-item"><strong>Username:</strong> {{ object.username }}
+                      <li class="list-group-item"><strong>ຊື່ ແລະ ນາມສະກຸນ:</strong> {{ object.full_name }}
                       </li>
-                      <li class="list-group-item"><strong>Firstname :</strong> {{ object.first_name }}</li>
-                      <li class="list-group-item"><strong>Lastname :</strong> {{ object.last_name }}</li>
-                      <li class="list-group-item"><strong>Email :</strong> {{ object.email }}</li>
+                      <li class="list-group-item"><strong>ເພດ :</strong> {{ object.gender }}</li>
+                      <li class="list-group-item"><strong>ເບີໂທ :</strong> {{ object.telephone }}</li>
+                      <li class="list-group-item"><strong>ອີເມວ :</strong> {{ object.email }}</li>
+                      <li class="list-group-item"><strong>ພາກວິຊາ :</strong> {{ object.dep }}</li>
                     </ul>
                   </div>
                 </div>
 
                 <div class="row top-buffer" style="padding-top: 10px">
                   <div class="col-12">
-                    <a href="{% url 'aluser' %}"><button type="button" class="btn btn-success">Back</button></a>
+                    <a href="{% url 'alteacher' %}"><button type="button" class="btn btn-success">ກັບຄືນ</button></a>
                   </div>
                 </div>
               </div>

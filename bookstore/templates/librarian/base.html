@@ -51,7 +51,7 @@
   {% block stylesheet %}{% endblock %}
 </head>
 
-<body id="page-top">
+<body id="page-top" class="lao">
 
   <!-- headers-->
   <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
@@ -95,12 +95,12 @@
 
 
     <!-- Sidebar -->
-    <ul class="sidebar navbar-nav">
+    <ul class="sidebar navbar-nav" style="background-color: #770000;">
 
       <li class="nav-item active">
         <a class="nav-link" href="{% url 'librarian' %}">
           <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Librarian Dashboard</span>
+          <span>ຫນ້າແອັດມິນ</span>
         </a>
       </li>
       <li class="nav-item active">
@@ -118,20 +118,20 @@
       <li class="nav-item">
         <a class="nav-link" href="{% url 'labook_form' %}">
           <i class="fas fa-book text-primary"></i>
-          <span style="color: white">Add Book</span>
+          <span style="color: white">ເພີ່ມປື້ມ</span>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'llbook' %}">
           <i class="fas fa-book text-primary"></i>
-          <span style="color: white">Recent Added Books</span>
+          <span style="color: white">ປື້ມທີ່ເພີ່ມລ່າສຸດ</span>
         </a>
       </li>
 
       <li class="nav-item">
         <a class="nav-link" href="{% url 'lmbook' %}">
           <i class="fas fa-book text-primary"></i>
-          <span style="color: white">Manage Books</span>
+          <span style="color: white">ຈັດການປື້ມ</span>
         </a>
       </li>
       <!-- <li class="nav-item">

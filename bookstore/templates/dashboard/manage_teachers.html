@@ -1,20 +1,16 @@
-{% extends 'librarian/base.html' %}
+{% extends 'dashboard/base.html' %}
 {% load static %}
-
 
 {% block body %}
 <div class="container-fluid">
   <div class="row" style="padding-top: 30px">
-
     <div class="col-sm-1" style="color: red">
     </div>
-
-
     <div class="col-sm-10">
       <div class="card mb-3">
         <div class="card-header">
           <i class="fas fa-table text-primary"></i>
-          <!-- Manage Books -->
+          Manage Books
         </div>
         <div class="card-body">
 
@@ -26,7 +22,6 @@
           {% endfor %}
           <div class="card mb-3">
             <div class="card-body">
-
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
@@ -42,12 +37,8 @@
                     </tr>
                   </thead>
                   <tbody>
-
-
                     {% if books %}
                     {% for book in books %}
-
-
                     <tr>
                       <td>{{ book.id }}</td>
                       <td>
@@ -58,22 +49,21 @@
                         {% endif %}
                       </td>
 
-
                       <td>{{ book.title }}</td>
                       <td>{{ book.major }}</td>
                       <td>{{ book.author }}</td>
                       <td>{{ book.year }}</td>
                       <td>{{ book.desc }}</td>
                       <td>
-                        <a href="{% url 'lvbook' book.pk %}"><button type="button" class="btn btn-primary">
+                        <a href="{% url 'avbook' book.pk %}"><button type="button" class="btn btn-primary">
                             ເບີ່ງ</button></a>
                       </td>
                       <td>
-                        <a href="{% url 'lebook' book.pk %}"><button type="button" class="btn btn-warning">
+                        <a href="{% url 'aebook' book.pk %}"><button type="button" class="btn btn-warning">
                             ແກ້ໄຂ</button></a>
                       </td>
                       <td>
-                        <a href="{% url 'ldbookk' book.pk %}"><button type="button" class="btn btn-danger">
+                        <a href="{% url 'adbook' book.pk %}"><button type="button" class="btn btn-danger">
                             ລົບ</button></a>
                       </td>
 
@@ -84,9 +74,6 @@
                     {% endif %}
                   </tbody>
                 </table>
-
-
-
 
                 {% if is_paginated %}
                 <ul class="pagination">
@@ -116,9 +103,6 @@
       </div>
       </tbody>
       </table>
-
-
-
 
     </div>
   </div>

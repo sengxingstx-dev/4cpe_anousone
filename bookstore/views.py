@@ -18,6 +18,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.shortcuts import get_object_or_404
 
 
 
@@ -89,6 +90,19 @@ def request_form(request):
 @login_required
 def feedback_form(request):
     return render(request, 'publisher/send_feedback.html')
+
+
+@login_required
+def department(request):
+    deps = models.Department.objects.all()
+    return render(request, 'publisher/department.html', {'deps': deps})
+
+
+@login_required
+def major(request):
+    majors = models.Major.objects.all()
+    return render(request, 'publisher/major.html', {'majors': majors})
+
 
 @login_required
 def about(request):
@@ -239,7 +253,7 @@ def udbook(request, pk):
         download.save()
         payment.save()
         messages.success(request, 'Book was downloaded successfully')
-        pdf_url = f'http://localhost:8001{thesis.pdf.url}'
+        pdf_url = f'http://localhost:8000{thesis.pdf.url}'
         return redirect(pdf_url)
     else:
         messages.error(request, 'Book was not downloaded successfully')
@@ -454,11 +468,56 @@ def create_user_form(request):
     return render(request, 'dashboard/add_user.html', choice)
 
 
+def create_teacher_form(request):
+    departments = models.Department.objects.all()
+
+    return render(request, 'dashboard/add_teacher.html', {'departments': departments})
+
+
+def create_student_form(request):
+    majors = models.Major.objects.all()
+
+    return render(request, 'dashboard/add_student.html', {'majors': majors})
+
+
 class ADeleteUser(SuccessMessageMixin, DeleteView):
     model = User
     template_name='dashboard/confirm_delete3.html'
     success_url = reverse_lazy('aluser')
     success_message = "Data successfully deleted"
+
+
+class ADeleteTeacher(SuccessMessageMixin, DeleteView):
+    model = models.Teacher
+    template_name='dashboard/confirm_delete4.html'
+    success_url = reverse_lazy('alteacher')
+    success_message = "Data successfully deleted"
+
+
+class ADeleteStudent(SuccessMessageMixin, DeleteView):
+    model = models.Student
+    template_name='dashboard/confirm_delete5.html'
+    success_url = reverse_lazy('alstudent')
+    success_message = "Data successfully deleted"
+
+
+class AEditTeacher(SuccessMessageMixin, UpdateView): 
+    model = models.Teacher
+    fields = ['full_name', 'gender', 'telephone', 'email', 'dep']
+    template_name = 'dashboard/edit_teacher.html'
+    success_url = reverse_lazy('alteacher')
+    success_message = "Data successfully updated"
+
+
+class AEditStudent(SuccessMessageMixin, UpdateView): 
+    model = models.Student
+    fields = [
+        'full_name', 'gender', 'dob', 'village',
+        'district', 'province', 'telephone', 'email', 'major'
+    ]
+    template_name = 'dashboard/edit_student.html'
+    success_url = reverse_lazy('alstudent')
+    success_message = "Data successfully updated"
 
 
 class AEditUser(SuccessMessageMixin, UpdateView): 
@@ -469,14 +528,76 @@ class AEditUser(SuccessMessageMixin, UpdateView):
     success_url = reverse_lazy('aluser')
     success_message = "Data successfully updated"
 
+
 class ListUserView(generic.ListView):
     model = User
     template_name = 'dashboard/list_users.html'
     context_object_name = 'users'
-    paginate_by = 4
+    paginate_by = 10
 
     def get_queryset(self):
         return User.objects.order_by('-id')
+
+
+class ListTeacherView(generic.ListView):
+    model = models.Teacher
+    template_name = 'dashboard/list_teachers.html'
+    context_object_name = 'teachers'
+    paginate_by = 10
+
+
+class ListStudentView(generic.ListView):
+    model = models.Student
+    template_name = 'dashboard/list_students.html'
+    context_object_name = 'students'
+    paginate_by = 10
+
+
+def create_teacher(request):
+    if request.method == 'POST':
+        full_name=request.POST['full_name']
+        gender=request.POST['gender']
+        telephone=request.POST['telephone']
+        email=request.POST['email']
+        dep=request.POST['dep']
+
+        # Retrieve the Department instance based on the dep_id
+        department = get_object_or_404(models.Department, id=dep)
+
+        teacher = models.Teacher(full_name=full_name, gender=gender, telephone=telephone, email=email, dep=department)
+        teacher.save()
+        messages.success(request, 'Teacher was created successfully!')
+        return redirect('alteacher')
+    else:
+        return redirect('create_teacher_form')
+
+
+def create_student(request):
+    if request.method == 'POST':
+        full_name=request.POST['full_name']
+        gender=request.POST['gender']
+        dob=request.POST['dob']
+        village=request.POST['village']
+        district=request.POST['district']
+        province=request.POST['province']
+        telephone=request.POST['telephone']
+        email=request.POST['email']
+        major=request.POST['major']
+
+        # Retrieve the Major instance based on the dep_id
+        major = get_object_or_404(models.Major, id=major)
+
+        student = models.Student(
+            full_name=full_name, gender=gender, dob=dob,
+            village=village, district=district, province=province,
+            telephone=telephone, email=email, major=major
+        )
+        student.save()
+        messages.success(request, 'Student was created successfully!')
+        return redirect('alstudent')
+    else:
+        return redirect('create_student_form')
+
 
 def create_user(request):
     choice = ['1', '0', 'Publisher', 'Admin', 'Librarian']
@@ -517,6 +638,16 @@ def create_user(request):
 class ALViewUser(DetailView):
     model = User
     template_name='dashboard/user_detail.html'
+
+
+class ALViewTeacher(DetailView):
+    model = models.Teacher
+    template_name='dashboard/teacher_detail.html'
+
+
+class ALViewStudent(DetailView):
+    model = models.Student
+    template_name='dashboard/student_detail.html'
 
 
 # class ACreateChat(LoginRequiredMixin, CreateView):
@@ -574,7 +705,7 @@ class ABookListView(LoginRequiredMixin,ListView):
     model = Book
     template_name = 'dashboard/book_list.html'
     context_object_name = 'books'
-    paginate_by = 3
+    paginate_by = 10
 
     def get_queryset(self):
         return Book.objects.order_by('-id')
@@ -689,3 +820,7 @@ def asearch(request):
             return render(request,'dashboard/result.html',{'files':files,'word':word})
         return render(request,'dashboard/result.html',{'files':files,'word':word})
 
+
+def abstract(request, pk):
+    books = models.Book.objects.get(id=pk)
+    return render(request, 'publisher/abstract.html', {'books': books})

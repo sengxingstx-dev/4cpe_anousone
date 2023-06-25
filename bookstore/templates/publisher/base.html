@@ -32,7 +32,7 @@
   {% block stylesheet %}{% endblock %}
 </head>
 
-<body id="page-top" style="background-color: whitesmoke;">
+<body id="page-top" style="background-color: #eeeeee;">
 
   <!-- headers-->
   <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
@@ -55,6 +55,12 @@
         <!-- <li class="nav-item">
           <a class="nav-link" href="{#% url 'feedback_form' %#}">Send Feedback</a>
         </li> -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'department' %}">ພາກວິຊາ</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'major' %}">ສາຂາວິຊາ</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'about' %}">ກ່ຽວກັບ</a>
         </li>

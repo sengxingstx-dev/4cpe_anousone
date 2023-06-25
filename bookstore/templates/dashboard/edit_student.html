@@ -10,12 +10,12 @@
           <div class="container-fluid">
             <ol class="breadcrumb">
               <li class="breadcrumb-item">
-                <a href="">User : {{ object.username }} </a>
+                <!-- <a href="">ອາຈານ : {{ object.full_name }} </a> -->
             </ol>
             <div class="card mb-3">
               <div class="card-header">
                 <i class="fas fa-table text-warning"></i>
-                Details Of User
+                <!-- Details Of Teacher -->
               </div>
               <div class="card-body">
                 {% for message in messages %}
@@ -37,7 +37,7 @@
 
                       <input type="submit" value="ອັບເດດ" class="btn btn-success" />
 
-                      <a href="{% url 'aluser' %}"><button type="button" class="btn btn-secondary">ກັບຄືນ</button></a>
+                      <a href="{% url 'alstudent' %}"><button type="button" class="btn btn-secondary">ກັບຄືນ</button></a>
                     </form>
                   <!-- </div> -->
                 <!-- </div> -->
