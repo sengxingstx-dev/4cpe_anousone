@@ -43,7 +43,7 @@ urlpatterns = [
     path('request_form/', views.request_form, name='request_form'),
     path('feedback_form/', views.feedback_form, name='feedback_form'),
     path('department/', views.department, name='department'),
-    path('major/', views.department, name='major'),
+    path('major/', views.major, name='major'),
     path('about/', views.about, name='about'),
     path('usearch/', views.usearch, name='usearch'),
 

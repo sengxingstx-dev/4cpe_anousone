@@ -34,6 +34,9 @@ class Teacher(models.Model):
     email = models.EmailField(max_length=255)
     dep = models.ForeignKey(Department, null=True, blank=True, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'{self.full_name}'
+
 
 class Student(models.Model):
     full_name = models.CharField(max_length=100)
@@ -45,6 +48,9 @@ class Student(models.Model):
     telephone = models.CharField(max_length=12)
     email = models.EmailField(max_length=255)
     major = models.ForeignKey(Major, null=True, blank=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.full_name}'
 
 
 class User(AbstractUser):
@@ -64,11 +70,10 @@ class Book(models.Model):
     year = models.CharField(max_length=100)
     publisher = models.CharField(max_length=200)
     desc = models.CharField(max_length=1000)
-    uploaded_by = models.CharField(max_length=100, null=True, blank=True)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     pdf = models.FileField(upload_to='bookapp/pdfs/')
     cover = models.ImageField(upload_to='bookapp/covers/', null=True, blank=True)
     major = models.ForeignKey(Major, null=True, blank=True, on_delete=models.CASCADE)
+    thesis_date = models.DateField(auto_now_add=True, null=True, blank=True)
 
     def __str__(self):
         return self.title

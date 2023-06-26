@@ -33,6 +33,7 @@
                       <th>ຜູ້ຂຽນ</th>
                       <th>ສົກຮຽນ</th>
                       <th>ບົດຄັດຫຍໍ້</th>
+                      <th>ວັນທີອັບໂຫລດ</th>
                       <th colspan="2"></th>
                     </tr>
                   </thead>
@@ -53,7 +54,14 @@
                       <td>{{ book.major }}</td>
                       <td>{{ book.author }}</td>
                       <td>{{ book.year }}</td>
-                      <td>{{ book.desc }}</td>
+                      <td>
+                        {% if book.desc|length > 50 %}
+                          {{ book.desc|slice:":50" }}... <a href="{% url 'abstract' book.id %}">ອ່ານຕໍ່</a>
+                        {% else %}
+                          {{ book.desc }}
+                        {% endif %}
+                      </td>
+                      <td>{{ book.thesis_date }}</td>
                       <td>
                         <a href="{% url 'avbook' book.pk %}"><button type="button" class="btn btn-primary">
                             ເບີ່ງ</button></a>

@@ -14,14 +14,16 @@
               <th>ລະຫັດ</th>
               <th>ຊື່ພາສາລາວ</th>
               <th>ຊື່ພາສາອັງກິດ</th>
+              <th>ພາກວິຊາ</th>
             </tr>
           </thead>
           <tbody>
             {% for major in majors %}
               <tr>
                 <td>{{ major.id }}</td>
-                <td>{{ major.name_la }}</td>
-                <td>{{ major.name_en }}</td>
+                <td>{{ major.majname_la }}</td>
+                <td>{{ major.majname_en }}</td>
+                <td>{{ major.dep }}</td>
               </tr>
             {% endfor %}
           </tbody>

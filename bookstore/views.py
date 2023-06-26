@@ -208,7 +208,7 @@ class UBookListView(LoginRequiredMixin,ListView):
     model = Book
     template_name = 'publisher/book_list.html'
     context_object_name = 'books'
-    paginate_by = 2
+    paginate_by = 10
 
     def get_queryset(self):
         return Book.objects.order_by('-id')
@@ -324,7 +324,7 @@ class LBookListView(LoginRequiredMixin,ListView):
     model = Book
     template_name = 'librarian/book_list.html'
     context_object_name = 'books'
-    paginate_by = 3
+    paginate_by = 10
 
     def get_queryset(self):
         return Book.objects.order_by('-id')
@@ -334,7 +334,7 @@ class LManageBook(LoginRequiredMixin,ListView):
     model = Book
     template_name = 'librarian/manage_books.html'
     context_object_name = 'books'
-    paginate_by = 3
+    paginate_by = 10
 
     def get_queryset(self):
         return Book.objects.order_by('-id')
@@ -674,7 +674,8 @@ class ALViewStudent(DetailView):
 
 @login_required
 def aabook_form(request):
-    return render(request, 'dashboard/add_book.html')
+    majors = models.Major.objects.all()
+    return render(request, 'dashboard/add_book.html', {'majors': majors})
 
 
 @login_required
@@ -690,9 +691,14 @@ def aabook(request):
         current_user = request.user
         user_id = current_user.id
         username = current_user.username
+        major=request.POST['major']
+
+        # Retrieve the Major instance based on the dep_id
+        major = get_object_or_404(models.Major, id=major)
 
         a = Book(title=title, author=author, year=year, publisher=publisher, 
-            desc=desc, cover=cover, pdf=pdf, uploaded_by=username, user_id=user_id)
+            desc=desc, cover=cover, pdf=pdf, major=major
+        )
         a.save()
         messages.success(request, 'Book was uploaded successfully')
         return redirect('albook')
@@ -715,7 +721,7 @@ class AManageBook(LoginRequiredMixin,ListView):
     model = Book
     template_name = 'dashboard/manage_books.html'
     context_object_name = 'books'
-    paginate_by = 3
+    paginate_by = 10
 
     def get_queryset(self):
         return Book.objects.order_by('-id')
