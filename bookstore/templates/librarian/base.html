@@ -82,7 +82,7 @@
           <i class="fas fa-user-circle fa-fw text-primary"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-          <a class="dropdown-item">{{ user.username }}</a>
+          <a class="dropdown-item">{{ request.user.username }}</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="{% url 'logout' %}" data-toggle="modal" data-target="#logoutModal">Logout</a>
         </div>
@@ -100,13 +100,13 @@
       <li class="nav-item active">
         <a class="nav-link" href="{% url 'librarian' %}">
           <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>ຫນ້າແອັດມິນ</span>
+          <span>ຫນ້າແອັດມິນ-ອາຈານ</span>
         </a>
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="">
           <i class="fas fa-user-circle fa-fw text-warning"></i>
-          <span style="color: yellow">Logged As {{ user.username }}</span>
+          <span style="color: yellow">ເຂົ້າສູ່ລະບົບໂດຍ: {{ request.user.username }}</span>
         </a>
       </li>
       <!-- <li class="nav-item">
@@ -115,25 +115,25 @@
           <span style="color: white">Group Chat</span>
         </a>
       </li> -->
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" href="{% url 'labook_form' %}">
           <i class="fas fa-book text-primary"></i>
           <span style="color: white">ເພີ່ມປື້ມ</span>
         </a>
-      </li>
+      </li> -->
       <li class="nav-item">
         <a class="nav-link" href="{% url 'llbook' %}">
           <i class="fas fa-book text-primary"></i>
-          <span style="color: white">ປື້ມທີ່ເພີ່ມລ່າສຸດ</span>
+          <span style="color: white">ປື້ມບົດໂຄງການຈົບຊັ້ນ</span>
         </a>
       </li>
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" href="{% url 'lmbook' %}">
           <i class="fas fa-book text-primary"></i>
           <span style="color: white">ຈັດການປື້ມ</span>
         </a>
-      </li>
+      </li> -->
       <!-- <li class="nav-item">
         <a class="nav-link" href="{#% url 'ldrequest' %#}">
           <i class="fas fa-book text-primary"></i>

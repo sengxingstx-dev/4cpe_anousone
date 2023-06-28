@@ -10,7 +10,7 @@ from django import forms
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ('title', 'author', 'publisher', 'year', 'desc', 'major')        
+        fields = ('title', 'author', 'year', 'desc', 'major')        
 
 
 class UserForm(forms.ModelForm):

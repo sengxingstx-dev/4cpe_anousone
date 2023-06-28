@@ -67,8 +67,8 @@ class User(AbstractUser):
 class Book(models.Model):
     title = models.CharField(max_length=100)
     author = models.CharField(max_length=100)
+    advisor = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True, blank=True)
     year = models.CharField(max_length=100)
-    publisher = models.CharField(max_length=200)
     desc = models.CharField(max_length=1000)
     pdf = models.FileField(upload_to='bookapp/pdfs/')
     cover = models.ImageField(upload_to='bookapp/covers/', null=True, blank=True)

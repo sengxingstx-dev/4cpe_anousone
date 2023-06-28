@@ -19,6 +19,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
 
 
 
@@ -285,8 +286,9 @@ def udbook(request, pk):
 def librarian(request):
     book = Book.objects.all().count()
     user = User.objects.all().count()
+    downloads = models.Download.objects.all().count()
 
-    context = {'book':book, 'user':user}
+    context = {'book':book, 'user':user, 'downloads': downloads}
 
     return render(request, 'librarian/home.html', context)
 
@@ -456,8 +458,9 @@ def lsearch(request):
 def dashboard(request):
     book = Book.objects.all().count()
     user = User.objects.all().count()
+    downloads = models.Download.objects.all().count()
 
-    context = {'book':book, 'user':user}
+    context = {'book':book, 'user':user, 'downloads': downloads}
 
     return render(request, 'dashboard/home.html', context)
 
@@ -675,28 +678,32 @@ class ALViewStudent(DetailView):
 @login_required
 def aabook_form(request):
     majors = models.Major.objects.all()
-    return render(request, 'dashboard/add_book.html', {'majors': majors})
+    teachers = models.Teacher.objects.all()
+    students = models.Student.objects.all()
+    return render(request, 'dashboard/add_book.html', {'majors': majors, 'teachers': teachers, 'students': students})
 
 
 @login_required
 def aabook(request):
     if request.method == 'POST':
         title = request.POST['title']
-        author = request.POST['author']
         year = request.POST['year']
-        publisher = request.POST['publisher']
         desc = request.POST['desc']
         cover = request.FILES['cover']
         pdf = request.FILES['pdf']
         current_user = request.user
         user_id = current_user.id
         username = current_user.username
-        major=request.POST['major']
+        author_id = request.POST['author']
+        major_id = request.POST['major']
+        teacher_id = request.POST['teacher']
 
         # Retrieve the Major instance based on the dep_id
-        major = get_object_or_404(models.Major, id=major)
+        major = get_object_or_404(models.Major, id=major_id)
+        advisor = get_object_or_404(models.Teacher, id=teacher_id)
+        author = get_object_or_404(models.Student, id=author_id)
 
-        a = Book(title=title, author=author, year=year, publisher=publisher, 
+        a = Book(title=title, author=author, year=year, advisor=advisor,
             desc=desc, cover=cover, pdf=pdf, major=major
         )
         a.save()
@@ -723,8 +730,21 @@ class AManageBook(LoginRequiredMixin,ListView):
     context_object_name = 'books'
     paginate_by = 10
 
+    # def get_queryset(self):
+    #     return Book.objects.order_by('-id')
+
     def get_queryset(self):
-        return Book.objects.order_by('-id')
+        queryset = Book.objects.order_by('-id')
+
+        # Retrieve the selected major and year from the request
+        major = self.request.GET.get('major')
+        year = self.request.GET.get('year')
+
+        # Apply filtering based on selected major and year
+        if major or year:
+            queryset = queryset.filter(Q(major=major) | Q(year=year))
+
+        return queryset
 
 
 class ADeleteBook(LoginRequiredMixin,DeleteView):

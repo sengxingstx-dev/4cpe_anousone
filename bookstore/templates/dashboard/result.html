@@ -5,7 +5,7 @@
   <div class="row" style="padding-top: 30px">
     <div class="col-sm-1" style="color: red">
     </div>
-    <div class="col-sm-10">
+    <div class="col-sm-12">
       <div class="card mb-3">
         <div class="card-body">
           {% for message in messages %}
@@ -15,7 +15,7 @@
           {% endfor %}
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="#">BookApp Search Results</a>
+              <a href="#">ຜົນການຄົ້ນຫາ</a>
             </li>
           </ol>
 
@@ -25,13 +25,16 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Book Cover</th>
-                  <th>Book Title</th>
-                  <th>Publisher</th>
-                  <th>Read</th>
-                  <th>Download</th>
-                  <th>Delete</th>
+                  <th>ໄອດີ</th>
+                  <th>ຫນ້າປົກ</th>
+                  <th>ຫົວຂໍ້</th>
+                  <th>ສາຂາວິຊາ</th>
+                  <th>ຜູ້ຂຽນ</th>
+                  <th>ອຈ ທີ່ປືກສາ</th>
+                  <th>ສົກຮຽນ</th>
+                  <th>ບົດຄັດຫຍໍ້</th>
+                  <th>ວັນທີອັບໂຫລດ</th>
+                  <th colspan="2">ການຈັດການ</th>
                 </tr>
               </thead>
               <tbody>
@@ -47,7 +50,18 @@
                   </td>
 
                   <td>{{ file.title }}</td>
-                  <td>{{ file.uploaded_by }}</td>
+                  <td>{{ file.major }}</td>
+                  <td>{{ file.author }}</td>
+                  <td>{{ file.advisor }}</td>
+                  <td>{{ file.year }}</td>
+                  <td>
+                    {% if file.desc|length > 50 %}
+                      {{ file.desc|slice:":50" }}... <a href="{% url 'abstract' file.id %}">ອ່ານຕໍ່</a>
+                    {% else %}
+                      {{ file.desc }}
+                    {% endif %}
+                  </td>
+                  <td>{{ file.thesis_date }}</td>
 
                   <td>
                     {% if file.pdf %}
