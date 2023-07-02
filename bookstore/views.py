@@ -458,9 +458,17 @@ def lsearch(request):
 def dashboard(request):
     book = Book.objects.all().count()
     user = User.objects.all().count()
+    teachers = models.Teacher.objects.all().count()
+    students = models.Student.objects.all().count()
+    majors = models.Major.objects.all().count()
+    departments = models.Department.objects.all().count()
     downloads = models.Download.objects.all().count()
 
-    context = {'book':book, 'user':user, 'downloads': downloads}
+    context = {
+        'book':book, 'user':user, 'downloads': downloads,
+        'teachers': teachers, 'students': students,
+        'majors': majors, 'departments': departments,
+    }
 
     return render(request, 'dashboard/home.html', context)
 
