@@ -713,6 +713,18 @@ def aabook(request):
         messages.error(request, 'Book was not uploaded successfully')
         return redirect('aabook_form')
 
+from django.http import JsonResponse
+def get_teachers_students(request):
+    major_id = request.GET.get('major_id')
+    # teachers = models.Teacher.objects.filter(major_id=major_id)
+    students = models.Student.objects.filter(major_id=major_id)
+    
+    # teachers_data = [{'id': teacher.id, 'name': teacher.name} for teacher in teachers]
+    students_data = [{'id': student.id, 'name': student.full_name} for student in students]
+    
+    response = {'students': students_data}
+    return JsonResponse(response)
+
 
 class ABookListView(LoginRequiredMixin,ListView):
     model = Book

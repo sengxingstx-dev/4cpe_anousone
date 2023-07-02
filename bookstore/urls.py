@@ -80,4 +80,5 @@ urlpatterns = [
     path('adteacher/<int:pk>', views.ADeleteTeacher.as_view(), name='adteacher'),
     path('adstudent/<int:pk>', views.ADeleteStudent.as_view(), name='adstudent'),
     path('aduser/<int:pk>', views.ADeleteUser.as_view(), name='aduser'),
+    path('get-teachers-students/', views.get_teachers_students, name='get-teachers-students'),
 ]

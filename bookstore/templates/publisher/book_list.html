@@ -109,8 +109,11 @@
 
                       <td>
                         {% if book.pdf %}
-                        <!-- <a href="{{ book.pdf.url }}" download class="btn btn-outline-success">Download PDF</a> -->
+                        {% if request.user.is_publisher %}
                         <a href="{% url 'confirm-download' pk=book.id %}" class="btn btn-outline-success">ດາວໂຫລດ PDF</a>
+                        {% else %}
+                        <a href="{{ book.pdf.url }}" download class="btn btn-outline-success">Download PDF</a>
+                        {% endif %}
                         {% else %}
                         <span class="text-muted">ບໍ່ມີ PDF</span>
                         {% endif %}
